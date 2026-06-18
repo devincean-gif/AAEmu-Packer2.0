@@ -23,16 +23,15 @@ layout. This build adds a format **reader** for that variant, so every tool can
 read, edit, and create AAFree paks as well as standard ones.
 
 The format readers are defined in `readers.json` (placed next to the
-executables) and the AAFree reader is also built in, so the tools work even
-without that file. Edit `readers.json` to add your own custom formats.
+executables). Edit `readers.json` to add your own custom formats.
 
 ## AAPakCLI quick reference
 
 ```
 AAPakCLI <pak>                  open read-only (for exporting)
 AAPakCLI -o  <pak>              open read/write
-AAPakCLI +c  <pak>              create a STANDARD (WIBO) pak
-AAPakCLI +ca <pak>              create an AAFree (ZERO) pak
+AAPakCLI +c  <pak>              create a STANDARD (WIBO) pak  ← server format
+AAPakCLI +ca <pak>              create an AAFree (ZERO) pak   ← client format
 +d <sourcedir> <pakdir>         add a folder tree into the pak
 -u <pakdir>     <destdir>       extract a folder to disk
 -l <sourcefile> <destfile>      extract a single file
@@ -41,11 +40,36 @@ AAPakCLI +ca <pak>              create an AAFree (ZERO) pak
 ```
 
 Run `AAPakCLI -?` for the complete argument list. Arguments are processed in
-order, so you can chain operations, e.g.:
+order, so you can chain operations.
+
+## Creating a pak with AAPakCLI
+
+Arguments run left-to-right: create the pak, add files, then save & exit.
+
+### Server-side pak (standard / WIBO format)
+
+AAEmu servers read a standard **WIBO** pak. Create one from a folder of server
+files with **`+c`** (here the output is named so it can be dropped straight into
+the server's `ClientData`):
 
 ```
-AAPakCLI +ca my_game_pak +d C:\modfiles\game game +x
+AAPakCLI +c aafree_5070_server_game_pak +d C:\serverdata\game game +x
 ```
+
+Then point the server's `Configurations/ClientData.json` `Sources` entry at that
+file (the filename itself is arbitrary — the path in `ClientData.json` is what
+matters).
+
+### Client-side pak (AAFree 5.0 "ZERO" format)
+
+Use **`+ca`** instead to write the AAFree client format:
+
+```
+AAPakCLI +ca game_pak +d C:\clientdata\game game +x
+```
+
+`+d <sourcedir> <pakdir>` adds a whole directory tree; chain extra `+d`/`+f`
+arguments to add more, then `+x` to save and exit.
 
 ## Building
 
