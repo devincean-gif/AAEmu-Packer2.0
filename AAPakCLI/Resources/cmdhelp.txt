@@ -1,0 +1,62 @@
+	Command-Line options
+----------------------------
+	The Command-Line arguments are treated as a macro, and are executed in order
+
+	<pakfile>
+		Opens pakfile in read-only mode (mainly used for exporting)
+
+	-o <pakfile>
+		Opens pakfile in read/write mode
+
+	+c <pakfile>
+		Creates/Overwrites a pakfile and opens it in read/write mode
+
+	+f <sourcefilename> <filename>
+		Adds a single file as target filename
+
+	-f <filename>
+		Deletes target filename from the pak
+
+	+d <sourcedirecotry> <directory>
+		Adds all files in sourcedirectory and all of it's sub-directories 
+		to the pakfile inside pakdirectory (don't add trailing slashes)
+
+	-d <directory>
+		Removes all files in target directory and all of the 
+		subfolders of the pakfile
+
+	-u <sourcedirectry> <directory>
+		Extracts all files from the pak's sourcedirectory to target directory in disk
+
+	-l <sourcefile> <targetfile>
+		Extracts a single sourcefile from the pak as targetfile on disk
+
+	-pbc <oldpakfile> <newpatchfile>
+		Creates a newpatchfile containing only the files from the currently
+		opened file that are different from the files in the oldpakfile.
+		Compares only by file names, sizes and the MD5 hash.
+		Will always overwrite newpatchfile if it already exists.
+
+	+pbc <oldpakfile> <newpatchfile>
+		The same as -pbc but will compare all file meta properties.
+		It still does not compare the actual content of the files.
+		This is the same behavior as the patch creator in the GUI.
+
+	-s
+		Force-Save pakfile
+
+	-x
+		Close (and save) pakfile
+
+	+x
+		same as -x but also closes the program after all arguments have been processed
+
+	-m <dialogboxtext>
+		Pause to show a MessageBox with a given message
+
+	-csv <filename>
+		Creates a CSV file from the current open pakfile, providing a blank will 
+		prompt a save dialog as normal
+
+	-h
+		This command-line help
